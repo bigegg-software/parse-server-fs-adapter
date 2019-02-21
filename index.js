@@ -5,6 +5,8 @@
 // Requires write access to the server's file system.
 
 var fs = require('fs');
+var SeekableReadStream = require('fs-readstream-seek')
+
 var path = require('path');
 var pathSep = require('path').sep;
 
@@ -64,7 +66,8 @@ FileSystemAdapter.prototype.getFileStream = function(filename) {
     return Promise.resolve().then(() => {
         let filepath = this._getLocalFilePath(filename);
         console.log('fp', filepath);
-        return fs.createReadStream(filepath);
+        return new SeekableReadStream(filepath);
+//        return fs.createReadStream(filepath);
     });
 }
 
