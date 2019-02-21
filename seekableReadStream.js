@@ -61,6 +61,9 @@ class ReadStream extends Readable {
     if (ev === 'data')
       this[RPOS] += data.length
 
+    if(this.fd == null && ev === 'data') {
+        return;//drop data event when closed //hack for parse fileRouter::handleFileStream
+    }
     return super.emit.apply(this, arguments)
   }
 
@@ -154,6 +157,10 @@ class ReadStream extends Readable {
     if (buf)
       this[FPOS] += buf.length
     return super.push.apply(this, arguments)
+  }
+
+  stream() {
+      return this;//hack for parse FileRouter::HandlFileStream()
   }
 
   seek (pos, cb) {
