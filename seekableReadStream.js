@@ -61,7 +61,7 @@ class ReadStream extends Readable {
     if (ev === 'data')
       this[RPOS] += data.length
 
-    if(this.fd == null && ev === 'data') {
+    if(this.closeInvoked && ev === 'data') {
         return;//drop data event when closed //hack for parse fileRouter::handleFileStream
     }
     return super.emit.apply(this, arguments)
@@ -231,6 +231,7 @@ class ReadStream extends Readable {
     })
 
     this.fd = null
+    this.closeInvoked = true;
   }
 }
 
