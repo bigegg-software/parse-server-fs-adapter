@@ -64,7 +64,7 @@ FileSystemAdapter.prototype.getFileStream = function(filename) {
     return Promise.resolve().then(() => {
         let filepath = this._getLocalFilePath(filename);
         console.log('fp', filepath);
-        return fs.readFile(filepath);
+        return fs.createReadStream(filepath);
     });
 }
 
