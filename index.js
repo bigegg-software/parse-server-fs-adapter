@@ -5,7 +5,7 @@
 // Requires write access to the server's file system.
 
 var fs = require('fs');
-var SeekableReadStream = require('fs-readstream-seek')
+var SeekableReadStream = require('./seekableReadStream.js')
 var path = require('path');
 var pathSep = require('path').sep;
 
@@ -70,7 +70,7 @@ FileSystemAdapter.prototype.getFileStream = function(filename) {
       }
 
       fs.fstat(fd, (err, stat) => {
-        fs.close(fd);
+        fs.close(fd, (err) => {});
         if (err) {
             return reject(err);
         }
