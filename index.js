@@ -6,7 +6,6 @@
 
 var fs = require('fs');
 var SeekableReadStream = require('fs-readstream-seek')
-
 var path = require('path');
 var pathSep = require('path').sep;
 
@@ -63,12 +62,26 @@ FileSystemAdapter.prototype.getFileData = function(filename) {
 }
 
 FileSystemAdapter.prototype.getFileStream = function(filename) {
-    return Promise.resolve().then(() => {
-        let filepath = this._getLocalFilePath(filename);
-        console.log('fp', filepath);
-        return new SeekableReadStream(filepath);
-//        return fs.createReadStream(filepath);
+  return new Promise((resolve, reject) => {
+    let filepath = this._getLocalFilePath(filename);
+    fs.open(filepath , 'r', function (err, fd) {
+      if (err !== null) {
+        return reject(err);
+      }
+
+      fs.fstat(fd, (err, stat) => {
+        fs.close(fd);
+        if (err) {
+            return reject(err);
+        }
+
+        let s = new SeekableReadStream(filepath);
+        s.length = stat.size;
+        resolve(s);
+      })
+
     });
+  });
 }
 
 
