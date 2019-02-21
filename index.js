@@ -60,6 +60,15 @@ FileSystemAdapter.prototype.getFileData = function(filename) {
   });
 }
 
+FileSystemAdapter.prototype.getFileStream = function(filename) {
+    return Promise.resolve().then(() => {
+        let filepath = this._getLocalFilePath(filename);
+        console.log('fp', filepath);
+        return fs.readFile(filepath);
+    });
+}
+
+
 FileSystemAdapter.prototype.getFileLocation = function(config, filename) {
   return config.mount + '/files/' + config.applicationId + '/' + encodeURIComponent(filename);
 }
