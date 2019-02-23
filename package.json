@@ -20,5 +20,7 @@
     "jasmine": "^2.4.1",
     "parse-server-conformance-tests": "^1.0.0"
   },
-  "dependencies": {}
+  "dependencies": {
+    "fs-readstream-seek": "^1.1.1"
+  }
 }
