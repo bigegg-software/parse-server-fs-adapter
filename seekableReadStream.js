@@ -25,4 +25,10 @@ ReadStream.prototype.seek = function (pos, cb) {
         setTimeout(cb, 0);
     }
 }
+
+ReadStream.prototype.stream = function () {
+    return this;
+}
+
+
 module.exports = ReadStream
